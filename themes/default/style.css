@@ -1,0 +1,21 @@
+/**
+* Description: Core theme for StormFrame
+*/
+
+/**
+* Structure
+*/
+html{}
+body{
+   background-color:#ccc;
+   font: 1em Verdana, Arial, Helvetica, sans-serif;
+}
+
+#header,
+#main,
+#footer {
+   margin:0 auto;
+   width:970px;
+   background-color: #aaa;
+   padding: 1em;
+}
