@@ -76,3 +76,17 @@ $sf->config['url_type'] = 1;
 * Show debugging information.
 */
 $sf->config['show_debug'] = true;
+
+///////// DATABASE ///////////
+/**
+ * Set database(s).
+ */
+$sf->config['database'][0]['dsn'] = 'mysql:host=localhost;dbname=StormFrameTest';
+
+/**
+ * Set username and password
+ */
+$sf->config['database'][0]['uname'] = 'stormframe';
+$sf->config['database'][0]['pass'] = 'defaultpass';
+
+//////////////////////////////
