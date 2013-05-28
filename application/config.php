@@ -70,3 +70,8 @@ $sf->config['base_url'] = null;
 * querystring  = 2      => index.php?q=controller/method/arg1/arg2/arg3
 */
 $sf->config['url_type'] = 1;
+
+/**
+* Show debugging information.
+*/
+$sf->config['show_debug'] = true;
