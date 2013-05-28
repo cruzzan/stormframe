@@ -4,9 +4,14 @@
 *
 * @package StormFrameCore
 */
-class CCDev implements IController {
-
-   	/**
+class CCDev extends CObject implements IController {
+	/**
+   	* Constructor
+   	*/
+  	public function __construct() {
+    	parent::__construct();
+  	}
+	/**
 	* Implementing interface IController. All controllers must have an index action.
 	*/
    	public function Index() {   
