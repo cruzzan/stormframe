@@ -42,6 +42,7 @@ $sf->config['language'] = 'en';
 $sf->config['controllers'] = array(
 	'index' => array('enabled' => true,'class' => 'CCIndex'),
 	'dev' 	=> array('enabled' => true, 'class' => 'CCDev' ),
+	'guestbook' 	=> array('enabled' => true, 'class' => 'CCGuestBook' ),
 );
 
 /**
