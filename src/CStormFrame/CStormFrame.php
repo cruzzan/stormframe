@@ -14,6 +14,13 @@ class CStormFrame implements ISingelton {
     	// include the site specific config.php and create a ref to $ly to be used by config.php
       	$sf = &$this;
    		require(STORMFRAME_APP_PATH.'/config.php');
+		
+		// Start a named session
+		session_name($this->config['session_name']);
+		session_start();
+		
+		// Set default date/time-zone
+		date_default_timezone_set($this->config['timezone']);
    	}
 
 	/**
