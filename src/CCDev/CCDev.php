@@ -23,20 +23,20 @@ class CCDev extends CObject implements IController {
     	$sf = CStormFrame::Instance();
     
     	$url = 'dev/links';
-    	$current      = $sf->request->CreateUrl($url);
+    	$current      = $this->request->CreateUrl($url);
 
-    	$sf->request->cleanUrl = false;
-    	$sf->request->querystringUrl = false;    
-    	$default      = $sf->request->CreateUrl($url);
+    	$this->request->cleanUrl = false;
+    	$this->request->querystringUrl = false;    
+    	$default      = $this->request->CreateUrl($url);
     
-   		$sf->request->cleanUrl = true;
-    	$clean        = $sf->request->CreateUrl($url);    
+   		$this->request->cleanUrl = true;
+    	$clean        = $this->request->CreateUrl($url);    
     
-    	$sf->request->cleanUrl = false;
-    	$sf->request->querystringUrl = true;    
-    	$querystring  = $sf->request->CreateUrl($url);
+    	$this->request->cleanUrl = false;
+    	$this->request->querystringUrl = true;    
+    	$querystring  = $this->request->CreateUrl($url);
     
-    	$sf->data['main'] .= <<<EOD
+    	$this->data['main'] .= <<<EOD
     	<h2>CRequest::CreateUrl()</h2>
     	<p>Here is a list of urls created using above method with various settings. All links should lead to this same page.</p>
     	<ul>
@@ -59,11 +59,11 @@ EOD;
     
     	$html = null;
     	foreach($menu as $val) {
-      		$html .= "<li><a href='" . $sf->request->CreateUrl($val) . "'>$val</a>";  
+      		$html .= "<li><a href='" . $this->request->CreateUrl($val) . "'>$val</a>";  
     	}
     
-    	$sf->data['title'] = "The Developer Controller";
-    	$sf->data['main'] = <<<EOD
+    	$this->data['title'] = "The Developer Controller";
+    	$this->data['main'] = <<<EOD
 		<h1>The Developer Controller</h1>
 		<p>This is what you can do for now:</p>
 		<ul>
