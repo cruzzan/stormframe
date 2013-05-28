@@ -35,7 +35,7 @@ class CStormFrame implements ISingelton {
     	$this->request = new CRequest($this->config['url_type']);
     	$this->request->Init($this->config['base_url']);
     	$controller = $this->request->controller;
-    	$method     = $this->request->method;
+    	$method     = str_replace(array('_', '-'), '', $this->request->method);
     	$arguments  = $this->request->arguments;
     
     	// Is the controller enabled in config.php?
