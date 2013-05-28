@@ -71,4 +71,16 @@ EOD;
 	</ul>
 EOD;
 	}
+	/**
+    * Display all items of the CObject.
+    */
+   	public function DisplayObject() {   
+      	$this->Menu();
+      
+      	$this->data['main'] .= <<<EOD
+<h2>Dumping content of CDev</h2>
+<p>Here is the content of the controller, including properties from CObject which holds access to common resources in CStormFrame.</p>
+EOD;
+      	$this->data['main'] .= '<pre>' . htmlentities(print_r($this, true)) . '</pre>';
+   	}
 }
