@@ -75,7 +75,9 @@ $sf->config['url_type'] = 1;
 /**
 * Show debugging information.
 */
-$sf->config['show_debug'] = true;
+$sf->config['debug']['showDebug'] = false;
+$sf->config['debug']['showDBNumQuerys'] = true;
+$sf->config['debug']['showDBQuerys'] = true;
 
 ///////// DATABASE ///////////
 /**

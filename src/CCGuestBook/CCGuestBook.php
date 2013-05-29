@@ -60,13 +60,9 @@ class CCGuestbook extends CObject implements IController {
    	* Adding new guestbook entry
    	*/
    	public function SaveNewEntry($text){
-   		$dbh = new PDO($this->config['database'][0]['dsn'], $this->config['database'][0]['uname'], $this->config['database'][0]['pass']);
-   		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-		
-		$stmt = $dbh->prepare('INSERT INTO Guestbook (content, submitted) VALUES (?, ?)');
-		$stmt->execute(array($text, date('y-m-d H:i:s')));
-		if($stmt->rowcount() != 1){
-			die('Failed to insert new entry into database');
+   		$this->dbh->ExecuteQuery('INSERT INTO Guestbook (content, submitted) VALUES (?, ?)', array($text, date('y-m-d H:i:s')));
+		if($this->dbh->rowCount() != 1){
+			echo 'Failed to insert new entry into database';
 		}
    	}
 	
@@ -74,11 +70,7 @@ class CCGuestbook extends CObject implements IController {
    	* Adding new guestbook entry
    	*/
    	public function ClearGuestbook(){
-   		$dbh = new PDO($this->config['database'][0]['dsn'], $this->config['database'][0]['uname'], $this->config['database'][0]['pass']);
-   		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-		
-		$stmt = $dbh->prepare('DELETE FROM Guestbook;');
-		$stmt->execute();
+		$this->dbh->ExecuteQuery('DELETE FROM Guestbook;');
    	}
 	
 	/**
@@ -86,16 +78,10 @@ class CCGuestbook extends CObject implements IController {
    	*/
    	public function ReadFromDatabase(){
    		try{
-   			$dbh = new PDO($this->config['database'][0]['dsn'], $this->config['database'][0]['uname'], $this->config['database'][0]['pass']);
-   			$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-			
-			$stmt = $dbh->prepare('SELECT * FROM Guestbook ORDER BY id DESC;');
-      		$stmt->execute();
-			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      		return $results;
+   			$this->dbh->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      		return $this->dbh->ExecuteSelectQueryAndFetchAll('SELECT * FROM Guestbook ORDER BY id DESC;');
    		}catch(Exception $e){
    			return array();
-   		}
+		}
    	}
-   	
 }

@@ -6,12 +6,16 @@
 */
 class CStormFrame implements ISingelton {
 	private static $instance = null;
+	public $config = null;
+	public $request = null;
+	public $data = null;
+	public $dbh = null;
 
 	/**
 	* Constructor
 	*/
 	protected function __construct() {
-    	// include the site specific config.php and create a ref to $ly to be used by config.php
+    	// include the site specific config.php and create a ref to $sf to be used by config.php
       	$sf = &$this;
    		require(STORMFRAME_APP_PATH.'/config.php');
 		
@@ -21,8 +25,12 @@ class CStormFrame implements ISingelton {
 		
 		// Set default date/time-zone
 		date_default_timezone_set($this->config['timezone']);
-   	}
-
+		
+		// Create a database object.
+		if(isset($this->config['database'][0]['dsn'])) {
+   			$this->dbh = new CMDatabase($this->config['database'][0]['dsn'], $this->config['database'][0]['uname'], $this->config['database'][0]['pass']);
+   		}
+	}
 	/**
 	* Singleton pattern. Get the instance of the latest created object or create a new one.
 	* @return stormFrame The instance of this class.

@@ -6,18 +6,19 @@
 */
 class CObject {
 
-   public $config;
-   public $request;
-   public $data;
+   	public $config;
+   	public $request;
+   	public $data;
+   	public $dbh;
 
-   /**
+   	/**
     * Constructor
     */
-   protected function __construct() {
-    $sf = CStormFrame::Instance();
-    $this->config   = &$sf->config;
-    $this->request  = &$sf->request;
-    $this->data     = &$sf->data;
-  }
-
+   	protected function __construct() {
+    	$sf = CStormFrame::Instance();
+    	$this->config   = &$sf->config;
+    	$this->request  = &$sf->request;
+    	$this->data     = &$sf->data;
+		$this->dbh     = &$sf->dbh;
+  	}
 }
