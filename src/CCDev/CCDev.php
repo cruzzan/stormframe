@@ -5,6 +5,7 @@
 * @package StormFrameCore
 */
 class CCDev extends CObject implements IController {
+	private $pageTitle = "The Developer Controller";
 	/**
    	* Constructor
    	*/
@@ -14,15 +15,14 @@ class CCDev extends CObject implements IController {
 	/**
 	* Implementing interface IController. All controllers must have an index action.
 	*/
-   	public function Index() {   
-      	$this->Menu();
+   	public function Index() {
+   		$this->views->SetTitle($this->pageTitle);   
+		$this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
+      		'menu'=>$this->Menu())
+    	);
    	}
-	public function Links() {  
-      	$this->Menu();
-    
-    	$sf = CStormFrame::Instance();
-    
-    	$url = 'dev/links';
+	public function Links() {
+		$url = 'dev/links';
     	$current      = $this->request->CreateUrl($url);
 
     	$this->request->cleanUrl = false;
@@ -35,52 +35,41 @@ class CCDev extends CObject implements IController {
     	$this->request->cleanUrl = false;
     	$this->request->querystringUrl = true;    
     	$querystring  = $this->request->CreateUrl($url);
-    
-    	$this->data['main'] .= <<<EOD
-    	<h2>CRequest::CreateUrl()</h2>
-    	<p>Here is a list of urls created using above method with various settings. All links should lead to this same page.</p>
-    	<ul>
-    	<li><a href='$current'>This is the current setting</a>
-    	<li><a href='$default'>This would be the default url</a>
-    	<li><a href='$clean'>This should be a clean url</a>
-    	<li><a href='$querystring'>This should be a querystring like url</a>
-    	</ul>
-    	<p>Enables various and flexible url-strategy.</p>
-EOD;
-}
+		
+		$urls = array(
+    		'This is the current setting' => $current, 
+    		'This would be the default url' => $default, 
+    		'This should be a clean url' => $clean,
+    		'This should be a querystring like url' => $querystring
+		);
+		
+		$this->views->SetTitle($this->pageTitle);   
+		$this->views->AddInclude(__DIR__ . '/links.tpl.php', array(
+      		'menu'	=>$this->Menu(),
+			'urls' 	=>$urls)
+    	);
+	}
 
 
   	/**
     * Create a method that shows the menu, same for all methods
    	*/
-  	private function Menu() {  
-    	$sf = CStormFrame::Instance();
-    	$menu = array('dev', 'dev/index', 'dev/links');
-    
-    	$html = null;
-    	foreach($menu as $val) {
-      		$html .= "<li><a href='" . $this->request->CreateUrl($val) . "'>$val</a>";  
-    	}
-    
-    	$this->data['title'] = "The Developer Controller";
-    	$this->data['main'] = <<<EOD
-		<h1>The Developer Controller</h1>
-		<p>This is what you can do for now:</p>
-		<ul>
-		$html
-	</ul>
-EOD;
+  	private function Menu() {
+    	$menu = array(
+    		'dev' => $this->request->CreateUrl('dev'), 
+    		'dev/index' => $this->request->CreateUrl('dev/index'), 
+    		'dev/links' => $this->request->CreateUrl('dev/links')
+		);
+    	return $menu;
 	}
 	/**
     * Display all items of the CObject.
     */
-   	public function DisplayObject() {   
-      	$this->Menu();
-      
-      	$this->data['main'] .= <<<EOD
-<h2>Dumping content of CDev</h2>
-<p>Here is the content of the controller, including properties from CObject which holds access to common resources in CStormFrame.</p>
-EOD;
-      	$this->data['main'] .= '<pre>' . htmlentities(print_r($this, true)) . '</pre>';
+   	public function DisplayObject() {
+		$this->views->SetTitle($this->pageTitle);   
+		$this->views->AddInclude(__DIR__ . '/displayObject.tpl.php', array(
+      		'menu'		=>$this->Menu(),
+			'dumpVar'	=>'<pre>' . htmlentities(print_r($this, true)) . '</pre>')
+    	);
    	}
 }

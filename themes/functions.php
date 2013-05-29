@@ -37,3 +37,9 @@ function get_debug() {
   
   	return $html;
 }
+/**
+* Render all views.
+*/
+function render_views() {
+  return CStormFrame::Instance()->views->Render();
+}

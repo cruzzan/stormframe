@@ -7,11 +7,7 @@
 class CCGuestbook extends CObject implements IController, IHasSQL {
 
 	private $pageTitle = 'StormFrame Guestbook Example';
-  	private $pageHeader = '<h1>Guestbook Example</h1><p>Showing off how to implement a guestbook in StormFrame.</p>';
-	private $pageMessages = '<h2>Current messages</h2>';
   	
- 
-
   	/**
    	* Constructor
    	*/
@@ -41,24 +37,11 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
    	* Implementing interface IController. All controllers must have an index action.
    	*/
   	public function Index() {
-  		$formAction = $this->request->CreateUrl("guestbook/handle");
-		$pageForm = "
-    	<form name='guestbook' action='".$formAction."' method='POST'>
-      		<p>
-        		<label>Comment: <br/>
-        		<textarea name='entry'></textarea></label>
-      		</p>
-      		<p>
-        		<input type='submit' name='doAdd' value='Add comment' />
-        		<input type='submit' name='doClear' value='Rensa gästboken' />
-      		</p>
-    	</form>
-  		";
-  		foreach($this->ReadFromDatabase() as $val) {
-    		$this->pageMessages .= "<div style='background-color:#f6f6f6;border:1px solid #ccc;margin-bottom:1em;padding:1em;'><p>At: ".$val['submitted']."</p><p>".$val['content']."</p></div>\n";
-		}
-    	$this->data['title'] = $this->pageTitle;
-    	$this->data['main'] = $this->pageHeader.$pageForm.$this->pageMessages;		
+  		$this->views->SetTitle($this->pageTitle);
+  		$this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
+      		'entries'=>$this->ReadFromDatabase(),
+      		'formAction'=>$this->request->CreateUrl('guestbook/handle')
+    	));
   	}
   
   	/**

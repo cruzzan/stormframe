@@ -4,14 +4,20 @@
 *
 * @package StormFrameCore
 */
-class CCIndex implements IController {
+class CCIndex extends CObject implements IController {
 
+	/**
+   	* Constructor
+   	*/
+  	public function __construct() {
+    	parent::__construct();
+  	}
+	
    	/**
 	* Implementing interface IController. All controllers must have an index action.
 	*/
-   	public function Index() {   
-      	global $sf;
-      	$sf->data['title'] = "The Index Controller";
-		$sf->data['main'] = "<h1>The Index Controller</h1>"; 
+   	public function Index() {
+   		$this->views->SetTitle("The Index Controller");   
+      	$this->views->AddInclude(__DIR__ . '/index.tpl.php'); 
    	}
 } 

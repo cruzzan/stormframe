@@ -10,6 +10,7 @@ class CStormFrame implements ISingelton {
 	public $request = null;
 	public $data = null;
 	public $dbh = null;
+	public $views = null;
 
 	/**
 	* Constructor
@@ -30,6 +31,9 @@ class CStormFrame implements ISingelton {
 		if(isset($this->config['database'][0]['dsn'])) {
    			$this->dbh = new CMDatabase($this->config['database'][0]['dsn'], $this->config['database'][0]['uname'], $this->config['database'][0]['pass']);
    		}
+		
+		// Create a container for all views and theme data
+     	$this->views = new CViewContainer();
 	}
 	/**
 	* Singleton pattern. Get the instance of the latest created object or create a new one.
@@ -108,8 +112,9 @@ class CStormFrame implements ISingelton {
     		include $functionsPath;
     	}
 
-    	// Extract $ly->data to own variables and handover to the template file
-    	extract($this->data);     
+    	// Extract $sf->data to own variables and handover to the template file
+    	extract($this->data);   
+		extract($this->views->GetData());  
     	include("{$themePath}/default.tpl.php");
 	}	
 }
