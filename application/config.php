@@ -14,7 +14,6 @@ ini_set('display_errors', 1);
 * Define session name
 */
 $sf->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
-
 $sf->config['session_key']  = 'stormframe';
 
 /*
@@ -42,8 +41,8 @@ $sf->config['language'] = 'en';
 * which is called in the frontcontroller phase from index.php.
 */
 $sf->config['controllers'] = array(
-	'index' => array('enabled' => true,'class' => 'CCIndex'),
-	'dev' 	=> array('enabled' => true, 'class' => 'CCDev' ),
+	'index' 		=> array('enabled' => true,'class' 	=> 'CCIndex'),
+	'dev' 			=> array('enabled' => true, 'class' => 'CCDev' ),
 	'guestbook' 	=> array('enabled' => true, 'class' => 'CCGuestBook' ),
 );
 
@@ -58,7 +57,7 @@ $sf->config['theme'] = array(
 /**
  * Google analytics: change UA-XXXXX-X to be your site's ID
  */
- $sf->config['googleAnalyticsID'] = "UA-XXXXX-X";
+$sf->config['googleAnalyticsID'] = "UA-XXXXX-X";
 
 /**
 * Set a base_url to use another than the default calculated
@@ -75,24 +74,21 @@ $sf->config['base_url'] = null;
 $sf->config['url_type'] = 1;
 
 /**
-* Show debugging information.
+* Set what to show during print of get_debug().
 */
-$sf->config['debug']['showDebug'] = false;
+$sf->config['debug']['showDebug'] 		= false;
 $sf->config['debug']['showDBNumQuerys'] = true;
-$sf->config['debug']['showDBQuerys'] = true;
-$sf->config['debug']['timer'] = true;
-$sf->config['debug']['session'] = true;
+$sf->config['debug']['showDBQuerys'] 	= true;
+$sf->config['debug']['timer'] 			= true;
+$sf->config['debug']['session'] 		= true;
 
-///////// DATABASE ///////////
 /**
  * Set database(s).
  */
 $sf->config['database'][0]['dsn'] = 'mysql:host=localhost;dbname=StormFrameTest';
 
 /**
- * Set username and password
+ * Set username and password for database(s).
  */
 $sf->config['database'][0]['uname'] = 'stormframe';
-$sf->config['database'][0]['pass'] = 'defaultpass';
-
-//////////////////////////////
+$sf->config['database'][0]['pass'] 	= 'defaultpass';
