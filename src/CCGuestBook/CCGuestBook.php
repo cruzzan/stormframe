@@ -52,8 +52,8 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
       		$this->SaveNewEntry(strip_tags($_POST['entry']));
     	}elseif(isset($_POST['doClear'])) {
       		$this->ClearGuestbook();
-    	}           
-    	header('Location: ' . $this->request->CreateUrl('guestbook'));
+    	}  
+		$this->RedirectTo($this->request->controller);
   	}
 	
  	/**
@@ -63,6 +63,9 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
    		$this->dbh->ExecuteQuery(self::SQL('insert into guestbook'), array($text, date('y-m-d H:i:s')));
 		if($this->dbh->rowCount() != 1){
 			echo 'Failed to insert new entry into database';
+			$this->session->AddMessage('error', 'Your message could not be added.');
+		}else{
+			$this->session->AddMessage('success', 'Your message was successfully added.');
 		}
    	}
 	
@@ -71,6 +74,7 @@ class CCGuestbook extends CObject implements IController, IHasSQL {
    	*/
    	public function ClearGuestbook(){
 		$this->dbh->ExecuteQuery(self::SQL('delete all from guestbook'));
+		$this->session->AddMessage('info', 'Removed all messages from the database table.');
    	}
 	
 	/**

@@ -19,3 +19,44 @@ body{
    background-color: #aaa;
    padding: 1em;
 }
+
+.info, .success, .warning, .error, .notice, .alert {
+	border: 1px solid;
+	border-radius: 10px;
+	margin: 10px 0px;
+	padding:20px 10px 20px 60px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	font-family:Arial, Helvetica, sans-serif; 
+	font-size:15px;
+}
+.info {
+	color: #00529B;
+	background-color: #BDE5F8;
+	background-image: url('img/info-icon.png');
+}
+.success {
+	color: #4F8A10;
+	background-color: #DFF2BF;
+	background-image:url('img/success-icon.png');
+}
+.warning {
+	color: #9F6000;
+	background-color: #FEEFB3;
+	background-image: url('img/warning-icon.png');
+}
+.error {
+	color: #D8000C;
+	background-color: #FFBABA;
+	background-image: url('img/error-icon.png');
+}
+.notice {
+	color: #D8000C;
+	background-color: #FFBABA;
+	background-image: url('img/notice-icon.png');
+}
+.alert {
+	color: #D8000C;
+	background-color: #FFBABA;
+	background-image: url('img/alert-icon.png');
+}

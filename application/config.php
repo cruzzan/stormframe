@@ -2,7 +2,7 @@
 /**
 * Site configuration, this file is changed by user per site.
 *
-*/
+*///////////////////////////////////////////////////////////
 
 /*
 * Set level of error reporting
@@ -14,6 +14,8 @@ ini_set('display_errors', 1);
 * Define session name
 */
 $sf->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+
+$sf->config['session_key']  = 'stormframe';
 
 /*
 * Define server timezone
@@ -78,6 +80,8 @@ $sf->config['url_type'] = 1;
 $sf->config['debug']['showDebug'] = false;
 $sf->config['debug']['showDBNumQuerys'] = true;
 $sf->config['debug']['showDBQuerys'] = true;
+$sf->config['debug']['timer'] = true;
+$sf->config['debug']['session'] = true;
 
 ///////// DATABASE ///////////
 /**

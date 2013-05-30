@@ -6,16 +6,22 @@
 */
 class CStormFrame implements ISingelton {
 	private static $instance = null;
-	public $config = null;
+	public $config = array();
 	public $request = null;
 	public $data = null;
 	public $dbh = null;
 	public $views = null;
+	public $session;
+	public $timer = array();
+	
 
 	/**
 	* Constructor
 	*/
 	protected function __construct() {
+		// time page generation
+		$this->timer['first'] = microtime(true); 
+
     	// include the site specific config.php and create a ref to $sf to be used by config.php
       	$sf = &$this;
    		require(STORMFRAME_APP_PATH.'/config.php');
@@ -23,6 +29,8 @@ class CStormFrame implements ISingelton {
 		// Start a named session
 		session_name($this->config['session_name']);
 		session_start();
+		$this->session = new CSession($this->config['session_key']);
+      	$this->session->PopulateFromSession();
 		
 		// Set default date/time-zone
 		date_default_timezone_set($this->config['timezone']);
@@ -96,6 +104,14 @@ class CStormFrame implements ISingelton {
 	* Theme Engine Render, renders the views using the selected theme.
 	*/
 	public function ThemeEngineRender() {
+		// Save to session before output anything
+    	$this->session->StoreInSession();
+  
+    	// Is theme enabled?
+    	if(!isset($this->config['theme'])) {
+      		return;
+    	}
+	
 		// Get the paths and settings for the theme
     	$themeName    = $this->config['theme']['name'];
     	$themePath    = STORMFRAME_INSTALL_PATH . "/themes/{$themeName}";
