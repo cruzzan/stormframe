@@ -4,88 +4,42 @@
 *
 * @package StormFrame
 */
-class CCGuestbook extends CObject implements IController, IHasSQL {
+class CCGuestbook extends CObject implements IController {
 
-	private $pageTitle = 'StormFrame Guestbook Example';
-  	
+  	private $guestbookModel;
+ 	private $pageTitle = 'StormFrame Guestbook Example';
+
   	/**
-   	* Constructor
+  	* Constructor
    	*/
   	public function __construct() {
     	parent::__construct();
+    	$this->guestbookModel = new CMGuestbook();
   	}
-	
-	/**
-    * Implementing interface IHasSQL. Encapsulate all SQL used by this class.
-    *
-    * @param string $key the string that is the key of the wanted SQL-entry in the array.
-    */
-  	public static function SQL($key=null) {
-     	$queries = array(
-        	'insert into guestbook'   => 'INSERT INTO Guestbook (content, submitted) VALUES (?, ?);',
-        	'select * from guestbook' => 'SELECT * FROM Guestbook ORDER BY id DESC;',
-        	'delete all from guestbook'   => 'DELETE FROM Guestbook;',
-     	);
-     	if(!isset($queries[$key])) {
-        	throw new Exception("No such SQL query, key '$key' was not found.");
-      	}
-      	return $queries[$key];
-   	}
- 
+
 
   	/**
    	* Implementing interface IController. All controllers must have an index action.
+   	* Show a standard frontpage for the guestbook.
    	*/
   	public function Index() {
   		$this->views->SetTitle($this->pageTitle);
   		$this->views->AddInclude(__DIR__ . '/index.tpl.php', array(
-      		'entries'=>$this->ReadFromDatabase(),
+      		'entries'=>$this->guestbookModel->ReadAll(),
       		'formAction'=>$this->request->CreateUrl('guestbook/handle')
     	));
   	}
-  
+ 
+
   	/**
-   	* Handle actions in the guestbook
+   	* Handle posts from the form and take appropriate action.
    	*/
   	public function Handle() {
-    	if(isset($_POST['doAdd'])) {
-      		$this->SaveNewEntry(strip_tags($_POST['entry']));
+  		if(isset($_POST['doAdd'])) {
+      		$this->guestbookModel->Add(strip_tags($_POST['entry']));
     	}elseif(isset($_POST['doClear'])) {
-      		$this->ClearGuestbook();
+      		$this->guestbookModel->DeleteAll();
     	}  
 		$this->RedirectTo($this->request->controller);
   	}
-	
- 	/**
-   	* Adding new guestbook entry
-   	*/
-   	public function SaveNewEntry($text){
-   		$this->dbh->ExecuteQuery(self::SQL('insert into guestbook'), array($text, date('y-m-d H:i:s')));
-		if($this->dbh->rowCount() != 1){
-			echo 'Failed to insert new entry into database';
-			$this->session->AddMessage('error', 'Your message could not be added.');
-		}else{
-			$this->session->AddMessage('success', 'Your message was successfully added.');
-		}
-   	}
-	
-	/**
-   	* Adding new guestbook entry
-   	*/
-   	public function ClearGuestbook(){
-		$this->dbh->ExecuteQuery(self::SQL('delete all from guestbook'));
-		$this->session->AddMessage('info', 'Removed all messages from the database table.');
-   	}
-	
-	/**
-   	* Reading all database entrys
-   	*/
-   	public function ReadFromDatabase(){
-   		try{
-   			$this->dbh->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      		return $this->dbh->ExecuteSelectQueryAndFetchAll(self::SQL('select * from guestbook'));
-   		}catch(Exception $e){
-   			return array();
-		}
-   	}
 }
