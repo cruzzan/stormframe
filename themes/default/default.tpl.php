@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
-        <link rel="stylesheet" href="themes/core/normalize.css">
+        <link rel="stylesheet" href="themes/default/normalize.css">
         <link rel="stylesheet" href="<?=$stylesheet?>">
     </head>
     <body>
