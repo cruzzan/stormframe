@@ -44,6 +44,7 @@ $sf->config['controllers'] = array(
 	'index' 		=> array('enabled' => true,'class' 	=> 'CCIndex'),
 	'dev' 			=> array('enabled' => true, 'class' => 'CCDev' ),
 	'guestbook' 	=> array('enabled' => true, 'class' => 'CCGuestBook' ),
+	'user' 			=> array('enabled' => true, 'class' => 'CCUser' ),
 );
 
 /**

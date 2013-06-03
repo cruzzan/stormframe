@@ -51,12 +51,14 @@ function get_debug() {
   
   	return $html;
 }
+
 /**
 * Render all views.
 */
 function render_views() {
   return CStormFrame::Instance()->views->Render();
 }
+
 /**
 * Get messages stored in flash-session.
 */
@@ -71,4 +73,15 @@ function get_messages_from_session() {
     }
   }
   return $html;
+}
+
+/**
+* Create a url to an internal resource.
+*
+* @param string the whole url or the controller. Leave empty for current controller.
+* @param string the method when specifying controller as first argument, else leave empty.
+* @param string the extra arguments to the method, leave empty if not using method.
+*/
+function create_url($urlOrController=null, $method=null, $arguments=null) {
+  return CStormFrame::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
 }
