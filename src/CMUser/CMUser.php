@@ -17,15 +17,17 @@ class CMUser extends CObject implements IHasSQL {
    	*/
   	public static function SQL($key=null) {
     	$queries = array(
-      		'insert into user'   => 'INSERT INTO User (Username, FirstName, LastName, Created, LastLogin, Email, Password) VALUES (?,?,?,?,?,?,?);',
-      		'check user password' => 'SELECT * FROM User WHERE Password=? AND (Username=? OR Email=?);',
+      		'insert into user'   				=> 'INSERT INTO User (Username, FirstName, LastName, Created, LastLogin, Email, Password) VALUES (?,?,?,?,?,?,?);',
+      		'insert into group'       			=> 'INSERT INTO Groups (Name) VALUES (?);',
+      		'insert into groupUserRelation'  	=> 'INSERT INTO GroupUserRelation (userID,groupID) VALUES (?,?);',
+      		'check user password' 				=> 'SELECT * FROM User WHERE Password=? AND (Username=? OR Email=?);',
+      		'get group memberships'   			=> 'SELECT * FROM Groups AS g INNER JOIN  GroupUserRelation AS ug ON g.id=ug.groupID WHERE ug.userID=?;',
      	);
     	if(!isset($queries[$key])) {
       		throw new Exception("No such SQL query, key '$key' was not found.");
     	}
     	return $queries[$key];
   	}
- 
 
   	/**
    	* Login by autenticate the user and password. Store user information in session if success.
